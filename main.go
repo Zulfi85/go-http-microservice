@@ -12,6 +12,8 @@ import (
 
 func main () {
 
+	
+
 	log := log.New(os.Stdout, "product-api", log.LstdFlags)
 	
 	//Create Handlers 
@@ -45,6 +47,8 @@ go func ()  {
 	sigChan := make(chan os.Signal)
 	signal.Notify(sigChan, os.Interrupt)
 	signal.Notify(sigChan, os.Kill)
+	
+	// Block until a signal is received.
 	sig := <- sigChan
 	log.Println("Received terminate singnal, graceful shutdown", sig)
 
