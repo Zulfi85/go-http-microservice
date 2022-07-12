@@ -14,7 +14,7 @@ func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }
 
-func (p *Products) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+/*func (p *Products) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		p.getProductshandle (w, r)
 		return
@@ -28,10 +28,10 @@ func (p *Products) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//catch all
 	w.WriteHeader(http.StatusMethodNotAllowed)
 	}
-	
+	*/
 
-
-func (p *Products) getProductshandle (w http.ResponseWriter, r *http.Request) {
+// Get or Fetch Request 
+func (p *Products) GetProductshandle (w http.ResponseWriter, r *http.Request) {
 	p.l.Println("Get Product Request") //Get Product returns the proucts from data store.
 	lp := data.GetProducts()
 	err := lp.ConvToJSON(w)
@@ -39,8 +39,13 @@ func (p *Products) getProductshandle (w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to marshal json", http.StatusInternalServerError)
 	}
 }
-
-func (p *Products) postProductshandle (w http.ResponseWriter, r *http.Request) {
+// Post or Create Requested 
+func (p *Products) PostProductshandle (w http.ResponseWriter, r *http.Request) {
 	p.l.Println("Post Product Request") //Post Products handle add products to data store. 
 
+	}
+//Put or Update Requested
+func (p *Products) UpdateProductshandle (w http.ResponseWriter, r *http.Request) {
+	p.l.Println("Update Product Request") //Post Products handle add products to data store. 
+	
 	}

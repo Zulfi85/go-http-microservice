@@ -18,21 +18,24 @@ func main () {
 	log := log.New(os.Stdout, "product-api", log.LstdFlags)
 	
 	//Create Handlers 
-	h1 := handlers.NewHello(log)
-	g1 := handlers.NewGoodBye(log)
+	//h1 := handlers.NewHello(log)
+	//g1 := handlers.NewGoodBye(log)
 	ProductHandler := handlers.NewProducts(log)
 	
-	//Create a Server mux and register handlers
-	
+	//Create a Server mux and register handlers using Gorilla framework 
+	Gsrvmux := mux.NewRouter()
 	//srvmux.Handle("/hello", h1)
 	//srvmux.Handle("/Goodbye", g1)
-	srvmux := mux.NewRouter()
-	srvmux.Handle("/", ProductHandler.GetProducts)	
+	getRouter := Gsrvmux.Methods("Get").Subrouter()
+	getRouter.HandleFunc("/",ProductHandler.GetProductshandle)
+	
+	putRouter := Gsrvmux.Methods("Put").Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}",ProductHandler.UpdateProductshandle)
 
 	//Create a new server 
 	srv := &http.Server{
 		Addr: ":8080",
-		Handler: srvmux,
+		Handler: Gsrvmux,
 		IdleTimeout: 120 * time.Second,
 		ReadTimeout: 3 * time.Second,
 		WriteTimeout: 3 * time.Second,
