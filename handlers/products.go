@@ -4,6 +4,8 @@ import (
 	"go-http-microservice/product-api/data"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type Products struct {
@@ -46,6 +48,14 @@ func (p *Products) PostProductshandle (w http.ResponseWriter, r *http.Request) {
 	}
 //Put or Update Requested
 func (p *Products) UpdateProductshandle (w http.ResponseWriter, r *http.Request) {
-	p.l.Println("Update Product Request") //Post Products handle add products to data store. 
+	vars := mux.Vars(r)
+	id:= vars["id"]
+	p.l.Println("Update Product Request", id) //Update Products handle to update products to data store. 
 	
+	lp := &data.Product {}
+	err := lp.ConvFromJSON(r.Body)
+	if err != nil {
+		http.Error(w, "Unable to unmarshal Id", http.StatusBadRequest)
+	}
+	data.UpdateProductshandle(lp)
 	}
